@@ -5,6 +5,9 @@
         "tslint-config-prettier"
     ],
     "rules": {
-        "no-empty-interface": false
+        "no-empty-interface": false,
+        "object-literal-sort-keys": false,
+        "ordered-imports": false,
+        "no-console": false
     }
 }

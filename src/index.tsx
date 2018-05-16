@@ -1,8 +1,8 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 
-import App from 'App'
+import App from 'components/App'
+import globalStyles from 'styles'
 
-import './index.scss'
-
+globalStyles()
 ReactDOM.render(<App />, document.getElementById('root'))
