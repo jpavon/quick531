@@ -4,7 +4,7 @@ import styled from 'styled-components'
 const Wrapper = styled.header`
     display: flex;
     padding: 1rem 2rem;
-    background-color: #eee;
+    background-color: #dfdfdf;
 `
 
 const Logo = styled.div`
