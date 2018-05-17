@@ -1,7 +1,6 @@
-import * as React from 'react'
 import styled from 'styled-components'
 
-const StyledInput = styled.input`
+const Input = styled.input`
     width: 100%;
     padding: 0.4rem 0;
 
@@ -12,9 +11,5 @@ const StyledInput = styled.input`
     border: none;
     text-align: center;
 `
-
-const Input: React.SFC<React.InputHTMLAttributes<HTMLInputElement>> = (
-    props
-) => <StyledInput {...props} />
 
 export default Input

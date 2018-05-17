@@ -5,7 +5,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import { IAppLiftedState } from 'components/App'
 import { lifts, program } from 'data'
 import Input from 'components/Input'
-import calculateWeight from 'utils/calculateWeight'
+import Program from 'components/Program'
 
 interface ILift {
     liftedState: IAppLiftedState
@@ -32,9 +32,19 @@ const StyledTab = styled(Tab)`
     background-color: #efefef;
     border-top: 1px solid #fff;
     border-left: 1px solid #fff;
+    cursor: pointer;
+    transition: 0.2s background-color;
 
     &:first-child {
         border-left: none;
+    }
+
+    &:hover,
+    &.react-tabs__tab--selected {
+        background-color: #c9e8ff;
+    }
+
+    ${Input} {
     }
 `
 ;(StyledTab as any).tabsRole = 'Tab'
@@ -65,44 +75,14 @@ const LiftTabs: React.SFC<ILift> = (props) => (
                 </StyledTab>
             ))}
         </StyledTabList>
-        <StyledTabPanel>
-            <Tabs>
-                <TabList>
-                    {Object.values(program).map((p, i) => (
-                        <Tab key={i}>{p.name}</Tab>
-                    ))}
-                </TabList>
-
-                {Object.values(program).map((p, i) => (
-                    <TabPanel key={i}>
-                        {p.sets.map((set, index) => (
-                            <div key={index}>
-                                {set[0]}% - {set[1]}
-                                <div>
-                                    weight:{' '}
-                                    {calculateWeight(
-                                        props.liftedState[
-                                            lifts[props.active].key
-                                        ],
-                                        set[0],
-                                        90
-                                    )}
-                                </div>
-                            </div>
-                        ))}
-                    </TabPanel>
-                ))}
-            </Tabs>
-        </StyledTabPanel>
-        <StyledTabPanel>
-            <h2>Any content 2</h2>
-        </StyledTabPanel>
-        <StyledTabPanel>
-            <h2>Any content 3</h2>
-        </StyledTabPanel>
-        <StyledTabPanel>
-            <h2>Any content 4</h2>
-        </StyledTabPanel>
+        {Object.keys(program).map((_, i) => (
+            <StyledTabPanel key={i}>
+                <Program
+                    liftedState={props.liftedState}
+                    active={props.active}
+                />
+            </StyledTabPanel>
+        ))}
     </StyledTabs>
 )
 
