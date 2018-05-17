@@ -5,6 +5,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import { lifts, program } from 'data'
 import { IAppLiftedState } from 'components/App'
 import calculateWeight from 'utils/calculateWeight'
+import styleVariables from 'styles/variables'
 
 interface IProgram {
     liftedState: IAppLiftedState
@@ -35,7 +36,7 @@ const StyledTab = styled(Tab)`
 
     &:hover,
     &.react-tabs__tab--selected {
-        background-color: #c9e8ff;
+        background-color: ${styleVariables.highlightColor};
     }
 `
 ;(StyledTab as any).tabsRole = 'Tab'
@@ -50,6 +51,9 @@ const ProgramRow = styled.div`
     width: 100%;
 
     background-color: #fff;
+    border-bottom: 1px solid #999;
+    &:first-child {
+    }
 `
 
 const ProgramCol = styled.div`

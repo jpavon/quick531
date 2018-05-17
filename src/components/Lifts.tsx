@@ -6,6 +6,7 @@ import { IAppLiftedState } from 'components/App'
 import { lifts, program } from 'data'
 import Input from 'components/Input'
 import Program from 'components/Program'
+import styleVariables from 'styles/variables'
 
 interface ILift {
     liftedState: IAppLiftedState
@@ -41,7 +42,7 @@ const StyledTab = styled(Tab)`
 
     &:hover,
     &.react-tabs__tab--selected {
-        background-color: #c9e8ff;
+        background-color: ${styleVariables.highlightColor};
     }
 
     ${Input} {
