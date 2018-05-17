@@ -3,15 +3,15 @@ import { createBrowserHistory } from 'history'
 import { withUrlState, UrlStateProps } from 'with-url-state'
 
 import Header from 'components/Header'
-import LiftTabs from 'components/LiftTabs'
-import LiftContent from 'components/LiftContent'
+import Lifts from 'components/Lifts'
+import { lifts } from 'data'
 
 const history = createBrowserHistory()
 
 interface IAppProps {}
 
 export interface IAppState {
-    active: keyof IAppLiftedState
+    active: number
 }
 
 export interface IAppLiftedState {
@@ -25,32 +25,33 @@ class App extends React.Component<
     IAppProps & UrlStateProps<IAppLiftedState>,
     IAppState
 > {
-    // tslint:disable-next-line:no-shadowed-variable
     constructor(props: IAppProps & UrlStateProps<IAppLiftedState>) {
         super(props)
 
         this.state = {
-            active: 'bp'
+            active: 0
         }
     }
 
-    private onInputChange = (e: React.FormEvent<HTMLInputElement>) => {
+    private handleInputChange = (e: React.FormEvent<HTMLInputElement>) => {
         return this.props.setUrlState({
             ...this.props.urlState,
             [e.currentTarget.name]: e.currentTarget.value
         })
     }
 
+    private handleOnActiveChange = (index: number) => {
+        this.setState({ active: index })
+    }
+
     public render() {
         return (
             <>
                 <Header />
-                <LiftTabs
-                    lifts={this.props.urlState}
-                    onChange={this.onInputChange}
-                />
-                <LiftContent
-                    lifts={this.props.urlState}
+                <Lifts
+                    liftedState={this.props.urlState}
+                    onInputChange={this.handleInputChange}
+                    onActiveChange={this.handleOnActiveChange}
                     active={this.state.active}
                 />
             </>
@@ -58,14 +59,9 @@ class App extends React.Component<
     }
 }
 
-const urlProps = {
-    d: '0',
-    s: '0',
-    bp: '0',
-    ohp: '0'
-}
+const urlProps = lifts.reduce((prev, curr) => ({ ...prev, [curr.key]: 0 }), {})
 
 export default withUrlState<IAppProps, IAppLiftedState>(
     history,
-    (prop: IAppProps) => urlProps
+    () => urlProps as IAppLiftedState
 )(App)
