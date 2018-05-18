@@ -11,8 +11,10 @@ import styleVariables from 'styles/variables'
 interface ILift {
     liftedState: IAppLiftedState
     onInputChange: (e: React.FormEvent<HTMLInputElement>) => void
-    onActiveChange: (index: number) => void
-    active: number
+    onActiveLiftChange: (index: number) => void
+    onActiveProgramChange: (index: number) => void
+    activeLift: number
+    activeProgram: number
 }
 
 const StyledTabs = styled(Tabs)``
@@ -23,6 +25,7 @@ const StyledTabList = styled(TabList)`
     padding: 0;
     margin: 0;
     list-style: none;
+    border-bottom: 1px solid ${styleVariables.borderColor};
 `
 ;(StyledTabList as any).tabsRole = 'TabList'
 
@@ -30,22 +33,14 @@ const StyledTab = styled(Tab)`
     flex: 1;
     padding: 1rem 0;
 
-    background-color: #efefef;
-    border-top: 1px solid #fff;
-    border-left: 1px solid #fff;
     cursor: pointer;
-    transition: 0.2s background-color;
-
-    &:first-child {
-        border-left: none;
-    }
+    transition: 0.2s color, 0.2s border-color;
+    border-top: 3px solid transparent;
 
     &:hover,
     &.react-tabs__tab--selected {
-        background-color: ${styleVariables.highlightColor};
-    }
-
-    ${Input} {
+        color: ${styleVariables.highlightColor};
+        border-top-color: ${styleVariables.highlightColor};
     }
 `
 ;(StyledTab as any).tabsRole = 'Tab'
@@ -63,7 +58,10 @@ const StyledTabPanel = styled(TabPanel)``
 ;(StyledTabPanel as any).tabsRole = 'TabPanel'
 
 const LiftTabs: React.SFC<ILift> = (props) => (
-    <StyledTabs selectedIndex={props.active} onSelect={props.onActiveChange}>
+    <StyledTabs
+        selectedIndex={props.activeLift}
+        onSelect={props.onActiveLiftChange}
+    >
         <StyledTabList>
             {lifts.map((lift, i) => (
                 <StyledTab key={i}>
@@ -80,7 +78,9 @@ const LiftTabs: React.SFC<ILift> = (props) => (
             <StyledTabPanel key={i}>
                 <Program
                     liftedState={props.liftedState}
-                    active={props.active}
+                    activeProgram={props.activeProgram}
+                    activeLift={props.activeLift}
+                    onActiveProgramChange={props.onActiveProgramChange}
                 />
             </StyledTabPanel>
         ))}

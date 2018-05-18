@@ -9,34 +9,40 @@ import styleVariables from 'styles/variables'
 
 interface IProgram {
     liftedState: IAppLiftedState
-    active: number
+    onActiveProgramChange: (index: number) => void
+    activeLift: number
+    activeProgram: number
 }
+
+const StyledTabs = styled(Tabs)`
+    margin: 0 auto;
+    max-width: 800px;
+`
+;(StyledTabs as any).tabsRole = 'Tabs'
 
 const StyledTabList = styled(TabList)`
     display: flex;
-    margin: 0;
     padding: 0;
+    margin: 0;
     list-style: none;
-    border-top: 2px solid #fff;
 `
 ;(StyledTabList as any).tabsRole = 'TabList'
 
 const StyledTab = styled(Tab)`
     flex: 1;
     padding: 1rem;
-    background-color: #eee;
+
+    font-size: 0.9rem;
     text-align: center;
     cursor: pointer;
-    transition: 0.2s background-color;
-    border-left: 1px solid #fff;
-
-    &:first-child {
-        border-left: none;
-    }
+    letter-spacing: 0.2rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    transition: 0.2s color;
 
     &:hover,
     &.react-tabs__tab--selected {
-        background-color: ${styleVariables.highlightColor};
+        color: ${styleVariables.highlightColor};
     }
 `
 ;(StyledTab as any).tabsRole = 'Tab'
@@ -47,12 +53,12 @@ const StyledTabPanel = styled(TabPanel)``
 const ProgramRow = styled.div`
     display: flex;
     margin: 0 auto;
-    max-width: 600px;
-    width: 100%;
 
     background-color: #fff;
-    border-bottom: 1px solid #999;
+    border-bottom: 1px solid ${styleVariables.borderColor};
+
     &:first-child {
+        border-top: 1px solid ${styleVariables.borderColor};
     }
 `
 
@@ -61,6 +67,7 @@ const ProgramCol = styled.div`
     padding: 2rem;
 
     font-size: 2rem;
+    text-transform: uppercase;
 
     &:last-child {
         text-align: right;
@@ -68,7 +75,10 @@ const ProgramCol = styled.div`
 `
 
 const Program: React.SFC<IProgram> = (props) => (
-    <Tabs>
+    <StyledTabs
+        selectedIndex={props.activeProgram}
+        onSelect={props.onActiveProgramChange}
+    >
         <StyledTabList>
             {Object.values(program).map((p, i) => (
                 <StyledTab key={i}>{p.name}</StyledTab>
@@ -83,18 +93,20 @@ const Program: React.SFC<IProgram> = (props) => (
                             {set[1]} reps @ {set[0]}%
                         </ProgramCol>
                         <ProgramCol>
-                            {calculateWeight(
-                                props.liftedState[lifts[props.active].key],
-                                set[0],
-                                90
-                            )}{' '}
-                            kg
+                            {calculateWeight({
+                                weight:
+                                    props.liftedState[
+                                        lifts[props.activeLift].key
+                                    ],
+                                percentage: set[0],
+                                rm: 90
+                            })}
                         </ProgramCol>
                     </ProgramRow>
                 ))}
             </StyledTabPanel>
         ))}
-    </Tabs>
+    </StyledTabs>
 )
 
 export default Program

@@ -1,10 +1,12 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
+import styleVariables from 'styles/variables'
+
 const Wrapper = styled.header`
     display: flex;
     padding: 1rem 2rem;
-    background-color: #dfdfdf;
+    border-bottom: 1px solid ${styleVariables.borderColor};
 `
 
 const Logo = styled.div`

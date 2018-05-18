@@ -11,7 +11,8 @@ const history = createBrowserHistory()
 interface IAppProps {}
 
 export interface IAppState {
-    active: number
+    activeLift: number
+    activeProgram: number
 }
 
 export interface IAppLiftedState {
@@ -29,7 +30,8 @@ class App extends React.Component<
         super(props)
 
         this.state = {
-            active: 0
+            activeLift: 0,
+            activeProgram: 0
         }
     }
 
@@ -40,8 +42,12 @@ class App extends React.Component<
         })
     }
 
-    private handleOnActiveChange = (index: number) => {
-        this.setState({ active: index })
+    private handleOnActiveLiftChange = (index: number) => {
+        this.setState({ activeLift: index })
+    }
+
+    private handleOnActiveProgramChange = (index: number) => {
+        this.setState({ activeProgram: index })
     }
 
     public render() {
@@ -51,8 +57,10 @@ class App extends React.Component<
                 <Lifts
                     liftedState={this.props.urlState}
                     onInputChange={this.handleInputChange}
-                    onActiveChange={this.handleOnActiveChange}
-                    active={this.state.active}
+                    onActiveLiftChange={this.handleOnActiveLiftChange}
+                    onActiveProgramChange={this.handleOnActiveProgramChange}
+                    activeLift={this.state.activeLift}
+                    activeProgram={this.state.activeProgram}
                 />
             </>
         )
