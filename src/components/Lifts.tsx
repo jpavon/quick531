@@ -69,10 +69,10 @@ const LiftTabs: React.SFC<ILifts> = (props) => (
                     <Title>{lift.name}</Title>
                     <Input
                         name={lift.key}
-                        defaultValue={props.state[lift.key]}
+                        defaultValue={String(props.state[lift.key])}
                         onChange={(e) =>
                             props.onStateChange({
-                                key: e.currentTarget.name,
+                                key: lift.key,
                                 value: Number(e.currentTarget.value)
                             })
                         }

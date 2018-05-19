@@ -1,14 +1,14 @@
 interface ICalculateWeight {
     weight: number
     percentage: number
-    rm: number
+    trainingMax: number
 }
 
 const calculateWeight = (arg: ICalculateWeight): number => {
-    const { weight, percentage, rm } = arg
+    const { weight, percentage, trainingMax } = arg
 
     const percentageWeight = weight * percentage/100
-    const rmWeight = percentageWeight * rm/100
+    const rmWeight = percentageWeight * trainingMax/100
     const roundToDecimal50 = (Math.round(rmWeight*100 / 50) * 50) / 100
     return roundToDecimal50
 }

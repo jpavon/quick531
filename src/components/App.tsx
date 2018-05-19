@@ -3,18 +3,18 @@ import * as store from 'store'
 
 import Header from 'components/Header'
 import Lifts from 'components/Lifts'
-import { lifts } from 'data'
+import { Lift } from 'data'
 
 interface IAppProps {}
 
-interface ILiftsState {
+interface ILifts {
     deadlift: number
     squat: number
     benchPress: number
     ohp: number
 }
 
-export interface IAppState extends ILiftsState {
+export interface IAppState extends ILifts {
     activeLift: number
     activeProgram: number
 }
@@ -22,7 +22,7 @@ export interface IAppState extends ILiftsState {
 export type InputEvent = React.FormEvent<HTMLInputElement>
 
 export interface IStateChange {
-    key: string
+    key: keyof IAppState
     value: number
 }
 
@@ -33,10 +33,10 @@ class App extends React.Component<IAppProps, IAppState> {
         const defaultState = {
             activeLift: 0,
             activeProgram: 0,
-            ...(lifts.reduce(
-                (prev, curr) => ({ ...prev, [curr.key]: 0 }),
-                {}
-            ) as ILiftsState)
+            [Lift.deadlift]: 0,
+            [Lift.squat]: 0,
+            [Lift.benchPress]: 0,
+            [Lift.ohp]: 0
         }
 
         const storedState = store.get('state')

@@ -102,7 +102,7 @@ const Programs: React.SFC<IPrograms> = (props) => (
                                         lifts[props.state.activeLift].key
                                     ],
                                 percentage: set[0],
-                                rm: 90
+                                trainingMax: 90
                             })}
                         </ProgramCol>
                     </ProgramRow>
