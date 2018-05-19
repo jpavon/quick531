@@ -3,15 +3,13 @@ import styled from 'styled-components'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 
 import { lifts, program } from 'data'
-import { IAppLiftedState, IStateChange } from 'components/App'
+import { IAppState, IStateChange } from 'components/App'
 import calculateWeight from 'utils/calculateWeight'
 import styleVariables from 'styles/variables'
 
 interface IPrograms {
-    liftedState: IAppLiftedState
+    state: IAppState
     onStateChange: (arg: IStateChange) => void
-    activeLift: number
-    activeProgram: number
 }
 
 const Wrapper = styled(Tabs)`
@@ -74,13 +72,13 @@ const ProgramCol = styled.div`
     }
 `
 
-const Program: React.SFC<IPrograms> = (props) => (
+const Programs: React.SFC<IPrograms> = (props) => (
     <Wrapper
-        selectedIndex={props.activeProgram}
+        selectedIndex={props.state.activeProgram}
         onSelect={(index) =>
             props.onStateChange({
                 key: 'activeProgram',
-                index
+                value: index
             })
         }
     >
@@ -100,8 +98,8 @@ const Program: React.SFC<IPrograms> = (props) => (
                         <ProgramCol>
                             {calculateWeight({
                                 weight:
-                                    props.liftedState[
-                                        lifts[props.activeLift].key
+                                    props.state[
+                                        lifts[props.state.activeLift].key
                                     ],
                                 percentage: set[0],
                                 rm: 90
@@ -114,4 +112,4 @@ const Program: React.SFC<IPrograms> = (props) => (
     </Wrapper>
 )
 
-export default Program
+export default Programs

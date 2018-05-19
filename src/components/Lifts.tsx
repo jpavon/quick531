@@ -2,18 +2,15 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 
-import { IAppLiftedState, InputEvent, IStateChange } from 'components/App'
+import { IAppState, IStateChange } from 'components/App'
 import { lifts, program } from 'data'
 import Input from 'components/Input'
 import Program from 'components/Programs'
 import styleVariables from 'styles/variables'
 
 interface ILifts {
-    liftedState: IAppLiftedState
-    onInputChange: (event: InputEvent) => void
+    state: IAppState
     onStateChange: (arg: IStateChange) => void
-    activeLift: number
-    activeProgram: number
 }
 
 const Wrapper = styled(Tabs)``
@@ -58,11 +55,11 @@ const LiftPanel = styled(TabPanel)``
 
 const LiftTabs: React.SFC<ILifts> = (props) => (
     <Wrapper
-        selectedIndex={props.activeLift}
+        selectedIndex={props.state.activeLift}
         onSelect={(index) =>
             props.onStateChange({
                 key: 'activeLift',
-                index
+                value: index
             })
         }
     >
@@ -72,8 +69,13 @@ const LiftTabs: React.SFC<ILifts> = (props) => (
                     <Title>{lift.name}</Title>
                     <Input
                         name={lift.key}
-                        defaultValue={props.liftedState[lift.key]}
-                        onChange={props.onInputChange}
+                        defaultValue={props.state[lift.key]}
+                        onChange={(e) =>
+                            props.onStateChange({
+                                key: e.currentTarget.name,
+                                value: Number(e.currentTarget.value)
+                            })
+                        }
                     />
                 </LiftsTab>
             ))}
@@ -81,9 +83,7 @@ const LiftTabs: React.SFC<ILifts> = (props) => (
         {Object.keys(program).map((_, i) => (
             <LiftPanel key={i}>
                 <Program
-                    liftedState={props.liftedState}
-                    activeProgram={props.activeProgram}
-                    activeLift={props.activeLift}
+                    state={props.state}
                     onStateChange={props.onStateChange}
                 />
             </LiftPanel>

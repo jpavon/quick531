@@ -1,61 +1,65 @@
 import * as React from 'react'
-import { createBrowserHistory } from 'history'
-import { withUrlState, UrlStateProps } from 'with-url-state'
+import * as store from 'store'
 
 import Header from 'components/Header'
 import Lifts from 'components/Lifts'
 import { lifts } from 'data'
 
-const history = createBrowserHistory()
-
 interface IAppProps {}
 
-interface IAppState {
-    activeLift: number
-    activeProgram: number
+interface ILiftsState {
+    deadlift: number
+    squat: number
+    benchPress: number
+    ohp: number
 }
 
-export interface IAppLiftedState {
-    d: string
-    s: string
-    bp: string
-    ohp: string
+export interface IAppState extends ILiftsState {
+    activeLift: number
+    activeProgram: number
 }
 
 export type InputEvent = React.FormEvent<HTMLInputElement>
 
 export interface IStateChange {
-    key: keyof IAppState
-    index: number
+    key: string
+    value: number
 }
 
-class App extends React.Component<
-    IAppProps & UrlStateProps<IAppLiftedState>,
-    IAppState
-> {
-    constructor(props: IAppProps & UrlStateProps<IAppLiftedState>) {
+class App extends React.Component<IAppProps, IAppState> {
+    constructor(props: IAppProps) {
         super(props)
 
-        this.state = {
+        const defaultState = {
             activeLift: 0,
-            activeProgram: 0
+            activeProgram: 0,
+            ...(lifts.reduce(
+                (prev, curr) => ({ ...prev, [curr.key]: 0 }),
+                {}
+            ) as ILiftsState)
+        }
+
+        const storedState = store.get('state')
+
+        if (storedState) {
+            this.state = storedState
+        } else {
+            this.state = defaultState
         }
     }
 
-    private handleInputChange = (event: InputEvent) => {
-        this.props.setUrlState({
-            ...this.props.urlState,
-            [event.currentTarget.name]: event.currentTarget.value
-        })
-    }
-
     private handleStateChange = (arg: IStateChange) => {
-        const { key, index } = arg
+        const { key, value } = arg
 
-        this.setState({
-            ...this.state,
-            [key]: index
-        })
+        this.setState(
+            {
+                ...this.state,
+                [key]: value
+            },
+            () => {
+                store.set('state', this.state)
+            }
+        )
     }
 
     public render() {
@@ -63,20 +67,12 @@ class App extends React.Component<
             <>
                 <Header />
                 <Lifts
-                    liftedState={this.props.urlState}
-                    onInputChange={this.handleInputChange}
+                    state={this.state}
                     onStateChange={this.handleStateChange}
-                    activeLift={this.state.activeLift}
-                    activeProgram={this.state.activeProgram}
                 />
             </>
         )
     }
 }
 
-const urlProps = lifts.reduce((prev, curr) => ({ ...prev, [curr.key]: 0 }), {})
-
-export default withUrlState<IAppProps, IAppLiftedState>(
-    history,
-    () => urlProps as IAppLiftedState
-)(App)
+export default App

@@ -1,14 +1,14 @@
 export const lifts = [
     {
-        key: 's',
+        key: 'squat',
         name: 'Squat'
     },
     {
-        key: 'bp',
+        key: 'benchPress',
         name: 'Bench Press'
     },
     {
-        key: 'd',
+        key: 'deadlift',
         name: 'Deadlift'
     },
     {
@@ -16,6 +16,13 @@ export const lifts = [
         name: 'OHP'
     }
 ]
+
+// export enum lifts {
+//     squat = 'Squat',
+//     benchPress = 'Bench Press',
+//     deadlift = 'Deadlift',
+//     ohp = 'OHP'
+// }
 
 export const program = {
     0: {

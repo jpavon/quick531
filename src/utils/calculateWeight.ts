@@ -10,7 +10,7 @@ const calculateWeight = (arg: ICalculateWeight): number => {
     const percentageWeight = weight * percentage/100
     const rmWeight = percentageWeight * rm/100
     const roundToDecimal50 = (Math.round(rmWeight*100 / 50) * 50) / 100
-    return Number(roundToDecimal50)
+    return roundToDecimal50
 }
 
 export default calculateWeight
