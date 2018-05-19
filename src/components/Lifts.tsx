@@ -2,34 +2,33 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 
-import { IAppLiftedState } from 'components/App'
+import { IAppLiftedState, InputEvent, IStateChange } from 'components/App'
 import { lifts, program } from 'data'
 import Input from 'components/Input'
-import Program from 'components/Program'
+import Program from 'components/Programs'
 import styleVariables from 'styles/variables'
 
-interface ILift {
+interface ILifts {
     liftedState: IAppLiftedState
-    onInputChange: (e: React.FormEvent<HTMLInputElement>) => void
-    onActiveLiftChange: (index: number) => void
-    onActiveProgramChange: (index: number) => void
+    onInputChange: (event: InputEvent) => void
+    onStateChange: (arg: IStateChange) => void
     activeLift: number
     activeProgram: number
 }
 
-const StyledTabs = styled(Tabs)``
-;(StyledTabs as any).tabsRole = 'Tabs'
+const Wrapper = styled(Tabs)``
+;(Wrapper as any).tabsRole = 'Tabs'
 
-const StyledTabList = styled(TabList)`
+const LiftsTabs = styled(TabList)`
     display: flex;
     padding: 0;
     margin: 0;
     list-style: none;
     border-bottom: 1px solid ${styleVariables.borderColor};
 `
-;(StyledTabList as any).tabsRole = 'TabList'
+;(LiftsTabs as any).tabsRole = 'TabList'
 
-const StyledTab = styled(Tab)`
+const LiftsTab = styled(Tab)`
     flex: 1;
     padding: 1rem 0;
 
@@ -43,7 +42,7 @@ const StyledTab = styled(Tab)`
         border-top-color: ${styleVariables.highlightColor};
     }
 `
-;(StyledTab as any).tabsRole = 'Tab'
+;(LiftsTab as any).tabsRole = 'Tab'
 
 const Title = styled.div`
     margin-bottom: 0.4rem;
@@ -54,37 +53,42 @@ const Title = styled.div`
     text-transform: uppercase;
 `
 
-const StyledTabPanel = styled(TabPanel)``
-;(StyledTabPanel as any).tabsRole = 'TabPanel'
+const LiftPanel = styled(TabPanel)``
+;(LiftPanel as any).tabsRole = 'TabPanel'
 
-const LiftTabs: React.SFC<ILift> = (props) => (
-    <StyledTabs
+const LiftTabs: React.SFC<ILifts> = (props) => (
+    <Wrapper
         selectedIndex={props.activeLift}
-        onSelect={props.onActiveLiftChange}
+        onSelect={(index) =>
+            props.onStateChange({
+                key: 'activeLift',
+                index
+            })
+        }
     >
-        <StyledTabList>
+        <LiftsTabs>
             {lifts.map((lift, i) => (
-                <StyledTab key={i}>
+                <LiftsTab key={i}>
                     <Title>{lift.name}</Title>
                     <Input
                         name={lift.key}
                         defaultValue={props.liftedState[lift.key]}
                         onChange={props.onInputChange}
                     />
-                </StyledTab>
+                </LiftsTab>
             ))}
-        </StyledTabList>
+        </LiftsTabs>
         {Object.keys(program).map((_, i) => (
-            <StyledTabPanel key={i}>
+            <LiftPanel key={i}>
                 <Program
                     liftedState={props.liftedState}
                     activeProgram={props.activeProgram}
                     activeLift={props.activeLift}
-                    onActiveProgramChange={props.onActiveProgramChange}
+                    onStateChange={props.onStateChange}
                 />
-            </StyledTabPanel>
+            </LiftPanel>
         ))}
-    </StyledTabs>
+    </Wrapper>
 )
 
 export default LiftTabs

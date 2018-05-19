@@ -10,7 +10,7 @@ const history = createBrowserHistory()
 
 interface IAppProps {}
 
-export interface IAppState {
+interface IAppState {
     activeLift: number
     activeProgram: number
 }
@@ -20,6 +20,13 @@ export interface IAppLiftedState {
     s: string
     bp: string
     ohp: string
+}
+
+export type InputEvent = React.FormEvent<HTMLInputElement>
+
+export interface IStateChange {
+    key: keyof IAppState
+    index: number
 }
 
 class App extends React.Component<
@@ -35,19 +42,20 @@ class App extends React.Component<
         }
     }
 
-    private handleInputChange = (e: React.FormEvent<HTMLInputElement>) => {
-        return this.props.setUrlState({
+    private handleInputChange = (event: InputEvent) => {
+        this.props.setUrlState({
             ...this.props.urlState,
-            [e.currentTarget.name]: e.currentTarget.value
+            [event.currentTarget.name]: event.currentTarget.value
         })
     }
 
-    private handleOnActiveLiftChange = (index: number) => {
-        this.setState({ activeLift: index })
-    }
+    private handleStateChange = (arg: IStateChange) => {
+        const { key, index } = arg
 
-    private handleOnActiveProgramChange = (index: number) => {
-        this.setState({ activeProgram: index })
+        this.setState({
+            ...this.state,
+            [key]: index
+        })
     }
 
     public render() {
@@ -57,8 +65,7 @@ class App extends React.Component<
                 <Lifts
                     liftedState={this.props.urlState}
                     onInputChange={this.handleInputChange}
-                    onActiveLiftChange={this.handleOnActiveLiftChange}
-                    onActiveProgramChange={this.handleOnActiveProgramChange}
+                    onStateChange={this.handleStateChange}
                     activeLift={this.state.activeLift}
                     activeProgram={this.state.activeProgram}
                 />
