@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 
-import { IAppState, IStateChange } from 'components/App'
+import { IAppState, IStateChange } from 'App'
 import { lifts, program } from 'data'
 import Input from 'components/Input'
 import Program from 'components/Programs'
@@ -10,7 +10,7 @@ import styleVariables from 'styles/variables'
 
 interface ILifts {
     state: IAppState
-    onStateChange: (arg: IStateChange) => void
+    stateChange: (arg: IStateChange) => void
 }
 
 const Wrapper = styled(Tabs)``
@@ -57,7 +57,7 @@ const LiftTabs: React.SFC<ILifts> = (props) => (
     <Wrapper
         selectedIndex={props.state.activeLift}
         onSelect={(index) =>
-            props.onStateChange({
+            props.stateChange({
                 key: 'activeLift',
                 value: index
             })
@@ -71,7 +71,7 @@ const LiftTabs: React.SFC<ILifts> = (props) => (
                         name={lift.key}
                         defaultValue={String(props.state[lift.key])}
                         onChange={(e) =>
-                            props.onStateChange({
+                            props.stateChange({
                                 key: lift.key,
                                 value: Number(e.currentTarget.value)
                             })
@@ -82,10 +82,7 @@ const LiftTabs: React.SFC<ILifts> = (props) => (
         </LiftsTabs>
         {Object.keys(program).map((_, i) => (
             <LiftPanel key={i}>
-                <Program
-                    state={props.state}
-                    onStateChange={props.onStateChange}
-                />
+                <Program state={props.state} stateChange={props.stateChange} />
             </LiftPanel>
         ))}
     </Wrapper>

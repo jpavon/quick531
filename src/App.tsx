@@ -3,6 +3,7 @@ import * as store from 'store'
 
 import Header from 'components/Header'
 import Lifts from 'components/Lifts'
+import Settings from 'components/Settings'
 import { Lift } from 'data'
 
 interface IAppProps {}
@@ -17,6 +18,7 @@ interface ILifts {
 export interface IAppState extends ILifts {
     activeLift: number
     activeProgram: number
+    trainingMax: number
 }
 
 export type InputEvent = React.FormEvent<HTMLInputElement>
@@ -33,6 +35,7 @@ class App extends React.Component<IAppProps, IAppState> {
         const defaultState = {
             activeLift: 0,
             activeProgram: 0,
+            trainingMax: 90,
             [Lift.deadlift]: 0,
             [Lift.squat]: 0,
             [Lift.benchPress]: 0,
@@ -68,7 +71,11 @@ class App extends React.Component<IAppProps, IAppState> {
                 <Header />
                 <Lifts
                     state={this.state}
-                    onStateChange={this.handleStateChange}
+                    stateChange={this.handleStateChange}
+                />
+                <Settings
+                    state={this.state}
+                    stateChange={this.handleStateChange}
                 />
             </>
         )

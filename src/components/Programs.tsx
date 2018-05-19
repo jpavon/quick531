@@ -3,13 +3,13 @@ import styled from 'styled-components'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 
 import { lifts, program } from 'data'
-import { IAppState, IStateChange } from 'components/App'
+import { IAppState, IStateChange } from 'App'
 import calculateWeight from 'utils/calculateWeight'
 import styleVariables from 'styles/variables'
 
 interface IPrograms {
     state: IAppState
-    onStateChange: (arg: IStateChange) => void
+    stateChange: (arg: IStateChange) => void
 }
 
 const Wrapper = styled(Tabs)`
@@ -76,7 +76,7 @@ const Programs: React.SFC<IPrograms> = (props) => (
     <Wrapper
         selectedIndex={props.state.activeProgram}
         onSelect={(index) =>
-            props.onStateChange({
+            props.stateChange({
                 key: 'activeProgram',
                 value: index
             })
@@ -87,7 +87,6 @@ const Programs: React.SFC<IPrograms> = (props) => (
                 <ProgramsTab key={i}>{p.name}</ProgramsTab>
             ))}
         </ProgramsTabs>
-
         {Object.values(program).map((p, i) => (
             <ProgramPanel key={i}>
                 {p.sets.map((set, index) => (
@@ -101,8 +100,8 @@ const Programs: React.SFC<IPrograms> = (props) => (
                                     props.state[
                                         lifts[props.state.activeLift].key
                                     ],
-                                percentage: set[0],
-                                trainingMax: 90
+                                percentage: set[0] as number,
+                                trainingMax: props.state.trainingMax
                             })}
                         </ProgramCol>
                     </ProgramRow>
