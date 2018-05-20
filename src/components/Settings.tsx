@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import { IAppState, IStateChange } from 'App'
+import { Consumer } from 'context'
 import Input from 'components/Input'
 
 const StyledInput = styled(Input)``
@@ -9,48 +9,40 @@ const StyledInput = styled(Input)``
 const Wrapper = styled.div`
     margin: 0 auto;
     margin-top: 3rem;
+    padding: 1rem 2rem;
     width: 100%;
-    max-width: 500px;
+    max-width: 300px;
 
     ${StyledInput} {
         text-align: left;
+        font-size: 1.6rem;
     }
-`
-
-const Title = styled.h2`
-    margin: 0;
-    margin-bottom: 1rem;
-    font-size: 1.3rem;
-    /* text-align: center; */
 `
 
 const Subtitle = styled.h2`
     margin: 0;
     margin-bottom: 0.3rem;
     font-size: 1rem;
-    /* text-align: center; */
 `
 
-interface ISettings {
-    state: IAppState
-    stateChange: (arg: IStateChange) => void
-}
-
-const Settings: React.SFC<ISettings> = (props) => (
-    <Wrapper>
-        <Title>Settings</Title>
-        <Subtitle>Training Max (%):</Subtitle>
-        <StyledInput
-            defaultValue={String(props.state.trainingMax)}
-            name="trainingMax"
-            onChange={(e) =>
-                props.stateChange({
-                    key: 'trainingMax',
-                    value: Number(e.currentTarget.value)
-                })
-            }
-        />
-    </Wrapper>
+const Settings: React.SFC = () => (
+    <Consumer>
+        {({ state, stateChange }) => (
+            <Wrapper>
+                <Subtitle>Training Max (%):</Subtitle>
+                <StyledInput
+                    defaultValue={String(state.trainingMax)}
+                    name="trainingMax"
+                    onChange={(e) =>
+                        stateChange({
+                            key: 'trainingMax',
+                            value: Number(e.currentTarget.value)
+                        })
+                    }
+                />
+            </Wrapper>
+        )}
+    </Consumer>
 )
 
 export default Settings

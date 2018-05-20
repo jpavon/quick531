@@ -1,25 +1,25 @@
 export enum Lift {
-    squat = 'squat',
-    benchPress = 'benchPress',
-    deadlift = 'deadlift',
-    ohp = 'ohp'
+    Squat = 'squat',
+    BenchPress = 'benchPress',
+    Deadlift = 'deadlift',
+    OHP = 'ohp'
 }
 
 export const lifts = [
     {
-        key: Lift.squat,
+        key: Lift.Squat,
         name: 'Squat'
     },
     {
-        key: Lift.benchPress,
+        key: Lift.BenchPress,
         name: 'Bench Press'
     },
     {
-        key: Lift.deadlift,
+        key: Lift.Deadlift,
         name: 'Deadlift'
     },
     {
-        key: Lift.ohp,
+        key: Lift.OHP,
         name: 'OHP'
     }
 ]

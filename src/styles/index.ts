@@ -1,7 +1,7 @@
 import { injectGlobal } from 'styled-components'
 import styledNormalize from 'styled-normalize'
 
-import variables from 'styles/variables'
+import styleVariables from 'styles/variables'
 
 export default () => injectGlobal`
     ${styledNormalize}
@@ -17,10 +17,10 @@ export default () => injectGlobal`
     }
 
     body {
-        font-family: ${variables.font};
-        color: ${variables.primaryColor};
+        font-family: ${styleVariables.font};
+        color: ${styleVariables.primaryColor};
         overflow-y: scroll;
-        background-color: ${variables.backgroundColor};
+        background-color: ${styleVariables.backgroundColor};
         font-weight: 400;
     }
 `

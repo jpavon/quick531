@@ -2,16 +2,11 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 
-import { IAppState, IStateChange } from 'App'
+import { Consumer } from 'context'
 import { lifts, program } from 'data'
 import Input from 'components/Input'
-import Program from 'components/Programs'
+import Programs from 'components/Programs'
 import styleVariables from 'styles/variables'
-
-interface ILifts {
-    state: IAppState
-    stateChange: (arg: IStateChange) => void
-}
 
 const Wrapper = styled(Tabs)``
 ;(Wrapper as any).tabsRole = 'Tabs'
@@ -53,39 +48,43 @@ const Title = styled.div`
 const LiftPanel = styled(TabPanel)``
 ;(LiftPanel as any).tabsRole = 'TabPanel'
 
-const LiftTabs: React.SFC<ILifts> = (props) => (
-    <Wrapper
-        selectedIndex={props.state.activeLift}
-        onSelect={(index) =>
-            props.stateChange({
-                key: 'activeLift',
-                value: index
-            })
-        }
-    >
-        <LiftsTabs>
-            {lifts.map((lift, i) => (
-                <LiftsTab key={i}>
-                    <Title>{lift.name}</Title>
-                    <Input
-                        name={lift.key}
-                        defaultValue={String(props.state[lift.key])}
-                        onChange={(e) =>
-                            props.stateChange({
-                                key: lift.key,
-                                value: Number(e.currentTarget.value)
-                            })
-                        }
-                    />
-                </LiftsTab>
-            ))}
-        </LiftsTabs>
-        {Object.keys(program).map((_, i) => (
-            <LiftPanel key={i}>
-                <Program state={props.state} stateChange={props.stateChange} />
-            </LiftPanel>
-        ))}
-    </Wrapper>
+const LiftTabs: React.SFC = () => (
+    <Consumer>
+        {({ state, stateChange }) => (
+            <Wrapper
+                selectedIndex={state.activeLift}
+                onSelect={(index) =>
+                    stateChange({
+                        key: 'activeLift',
+                        value: index
+                    })
+                }
+            >
+                <LiftsTabs>
+                    {lifts.map((lift, i) => (
+                        <LiftsTab key={i}>
+                            <Title>{lift.name}</Title>
+                            <Input
+                                name={lift.key}
+                                defaultValue={String(state[lift.key])}
+                                onChange={(e) =>
+                                    stateChange({
+                                        key: lift.key,
+                                        value: Number(e.currentTarget.value)
+                                    })
+                                }
+                            />
+                        </LiftsTab>
+                    ))}
+                </LiftsTabs>
+                {Object.keys(program).map((_, i) => (
+                    <LiftPanel key={i}>
+                        <Programs />
+                    </LiftPanel>
+                ))}
+            </Wrapper>
+        )}
+    </Consumer>
 )
 
 export default LiftTabs

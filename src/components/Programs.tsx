@@ -3,14 +3,9 @@ import styled from 'styled-components'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 
 import { lifts, program } from 'data'
-import { IAppState, IStateChange } from 'App'
 import calculateWeight from 'utils/calculateWeight'
 import styleVariables from 'styles/variables'
-
-interface IPrograms {
-    state: IAppState
-    stateChange: (arg: IStateChange) => void
-}
+import { Consumer } from 'context'
 
 const Wrapper = styled(Tabs)`
     margin: 0 auto;
@@ -67,48 +62,59 @@ const ProgramCol = styled.div`
     font-size: 2rem;
     text-transform: uppercase;
 
+    &:first-child {
+        padding-right: 0;
+    }
+
     &:last-child {
         text-align: right;
+        flex: 0 0 30%;
+    }
+
+    @media (max-width: 600px) {
+        font-size: 1.6rem;
     }
 `
 
-const Programs: React.SFC<IPrograms> = (props) => (
-    <Wrapper
-        selectedIndex={props.state.activeProgram}
-        onSelect={(index) =>
-            props.stateChange({
-                key: 'activeProgram',
-                value: index
-            })
-        }
-    >
-        <ProgramsTabs>
-            {Object.values(program).map((p, i) => (
-                <ProgramsTab key={i}>{p.name}</ProgramsTab>
-            ))}
-        </ProgramsTabs>
-        {Object.values(program).map((p, i) => (
-            <ProgramPanel key={i}>
-                {p.sets.map((set, index) => (
-                    <ProgramRow key={index}>
-                        <ProgramCol>
-                            {set[1]} reps @ {set[0]}%
-                        </ProgramCol>
-                        <ProgramCol>
-                            {calculateWeight({
-                                weight:
-                                    props.state[
-                                        lifts[props.state.activeLift].key
-                                    ],
-                                percentage: set[0] as number,
-                                trainingMax: props.state.trainingMax
-                            })}
-                        </ProgramCol>
-                    </ProgramRow>
+const Programs: React.SFC = () => (
+    <Consumer>
+        {({ state, stateChange }) => (
+            <Wrapper
+                selectedIndex={state.activeProgram}
+                onSelect={(index) =>
+                    stateChange({
+                        key: 'activeProgram',
+                        value: index
+                    })
+                }
+            >
+                <ProgramsTabs>
+                    {Object.values(program).map((p, i) => (
+                        <ProgramsTab key={i}>{p.name}</ProgramsTab>
+                    ))}
+                </ProgramsTabs>
+                {Object.values(program).map((p, i) => (
+                    <ProgramPanel key={i}>
+                        {p.sets.map((set, index) => (
+                            <ProgramRow key={index}>
+                                <ProgramCol>
+                                    {set[1]} reps @ {set[0]}%
+                                </ProgramCol>
+                                <ProgramCol>
+                                    {calculateWeight({
+                                        weight:
+                                            state[lifts[state.activeLift].key],
+                                        percentage: set[0] as number,
+                                        trainingMax: state.trainingMax
+                                    })}
+                                </ProgramCol>
+                            </ProgramRow>
+                        ))}
+                    </ProgramPanel>
                 ))}
-            </ProgramPanel>
-        ))}
-    </Wrapper>
+            </Wrapper>
+        )}
+    </Consumer>
 )
 
 export default Programs
