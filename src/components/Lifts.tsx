@@ -50,11 +50,11 @@ const LiftPanel = styled(TabPanel)``
 
 const LiftTabs: React.SFC = () => (
     <Consumer>
-        {({ state, stateChange }) => (
+        {({ data, update }) => (
             <Wrapper
-                selectedIndex={state.activeLift}
+                selectedIndex={data.activeLift}
                 onSelect={(index) =>
-                    stateChange({
+                    update({
                         key: 'activeLift',
                         value: index
                     })
@@ -66,9 +66,9 @@ const LiftTabs: React.SFC = () => (
                             <Title>{lift.name}</Title>
                             <Input
                                 name={lift.key}
-                                defaultValue={String(state[lift.key])}
+                                defaultValue={String(data[lift.key])}
                                 onChange={(e) =>
-                                    stateChange({
+                                    update({
                                         key: lift.key,
                                         value: Number(e.currentTarget.value)
                                     })

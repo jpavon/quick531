@@ -27,14 +27,14 @@ const Subtitle = styled.h2`
 
 const Settings: React.SFC = () => (
     <Consumer>
-        {({ state, stateChange }) => (
+        {({ data, update }) => (
             <Wrapper>
                 <Subtitle>Training Max (%):</Subtitle>
                 <StyledInput
-                    defaultValue={String(state.trainingMax)}
+                    defaultValue={String(data.trainingMax)}
                     name="trainingMax"
                     onChange={(e) =>
-                        stateChange({
+                        update({
                             key: 'trainingMax',
                             value: Number(e.currentTarget.value)
                         })

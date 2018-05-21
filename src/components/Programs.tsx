@@ -78,11 +78,11 @@ const ProgramCol = styled.div`
 
 const Programs: React.SFC = () => (
     <Consumer>
-        {({ state, stateChange }) => (
+        {({ data, update }) => (
             <Wrapper
-                selectedIndex={state.activeProgram}
+                selectedIndex={data.activeProgram}
                 onSelect={(index) =>
-                    stateChange({
+                    update({
                         key: 'activeProgram',
                         value: index
                     })
@@ -103,9 +103,9 @@ const Programs: React.SFC = () => (
                                 <ProgramCol>
                                     {calculateWeight({
                                         weight:
-                                            state[lifts[state.activeLift].key],
+                                            data[lifts[data.activeLift].key],
                                         percentage: set[0] as number,
-                                        trainingMax: state.trainingMax
+                                        trainingMax: data.trainingMax
                                     })}
                                 </ProgramCol>
                             </ProgramRow>
