@@ -5,17 +5,14 @@ import { Lift } from 'data'
 
 const STORE_KEY = 'data'
 
-interface ILifts {
+interface IData {
+    activeLift: number
+    activeProgram: number
+    trainingMax: number
     deadlift: number
     squat: number
     benchPress: number
     ohp: number
-}
-
-interface IData extends ILifts {
-    activeLift: number
-    activeProgram: number
-    trainingMax: number
 }
 
 interface IUpdateArg {

@@ -1,7 +1,4 @@
 {
-    "files.exclude": {
-        "**/*.css": true,
-    },
     "[typescriptreact]": {
         "editor.formatOnSave": true
     },
