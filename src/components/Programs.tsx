@@ -2,10 +2,10 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 
-import { lifts, program } from 'data'
+import { lifts, programs } from 'data'
+import { Consumer } from 'context'
 import calculateWeight from 'utils/calculateWeight'
 import styleVariables from 'styles/variables'
-import { Consumer } from 'context'
 
 const Wrapper = styled(Tabs)`
     margin: 0 auto;
@@ -89,22 +89,22 @@ const Programs: React.SFC = () => (
                 }
             >
                 <ProgramsTabs>
-                    {Object.values(program).map((p, i) => (
-                        <ProgramsTab key={i}>{p.name}</ProgramsTab>
+                    {programs.map((program, i) => (
+                        <ProgramsTab key={i}>{program.name}</ProgramsTab>
                     ))}
                 </ProgramsTabs>
-                {Object.values(program).map((p, i) => (
+                {programs.map((program, i) => (
                     <ProgramPanel key={i}>
-                        {p.sets.map((set, index) => (
+                        {program.sets.map((set, index) => (
                             <ProgramRow key={index}>
                                 <ProgramCol>
-                                    {set[1]} reps @ {set[0]}%
+                                    {set.reps} reps @ {set.percentage}%
                                 </ProgramCol>
                                 <ProgramCol>
                                     {calculateWeight({
                                         weight:
                                             data[lifts[data.activeLift].key],
-                                        percentage: set[0] as number,
+                                        percentage: set.percentage,
                                         trainingMax: data.trainingMax
                                     })}
                                 </ProgramCol>

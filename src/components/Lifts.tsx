@@ -2,8 +2,8 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 
+import { lifts, programs } from 'data'
 import { Consumer } from 'context'
-import { lifts, program } from 'data'
 import Input from 'components/Input'
 import Programs from 'components/Programs'
 import styleVariables from 'styles/variables'
@@ -77,7 +77,7 @@ const LiftTabs: React.SFC = () => (
                         </LiftsTab>
                     ))}
                 </LiftsTabs>
-                {Object.keys(program).map((_, i) => (
+                {Object.keys(programs).map((_, i) => (
                     <LiftPanel key={i}>
                         <Programs />
                     </LiftPanel>

@@ -24,21 +24,37 @@ export const lifts = [
     }
 ]
 
-export const program = {
-    0: {
+export const programs = [
+    {
         name: '5/5/5',
-        sets: [[65, 5], [75, 5], [85, '5+']]
+        sets: [
+            { percentage: 65, reps: '5' },
+            { percentage: 75, reps: '5' },
+            { percentage: 85, reps: '5+' }
+        ]
     },
-    1: {
+    {
         name: '3/3/3',
-        sets: [[70, 3], [80, 3], [90, '3+']]
+        sets: [
+            { percentage: 70, reps: '3' },
+            { percentage: 80, reps: '3' },
+            { percentage: 90, reps: '3+' }
+        ]
     },
-    2: {
+    {
         name: '5/3/1',
-        sets: [[75, 5], [85, 3], [95, '1+']]
+        sets: [
+            { percentage: 75, reps: '5' },
+            { percentage: 85, reps: '3' },
+            { percentage: 95, reps: '1+' }
+        ]
     },
-    3: {
+    {
         name: 'Deload',
-        sets: [[40, 5], [50, 5], [60, 5]]
+        sets: [
+            { percentage: 40, reps: '5' },
+            { percentage: 50, reps: '5' },
+            { percentage: 60, reps: '5' }
+        ]
     }
-}
+]
