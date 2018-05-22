@@ -90,7 +90,9 @@ const Programs: React.SFC = () => (
             >
                 <ProgramsTabs>
                     {programs.map((program, i) => (
-                        <ProgramsTab key={i}>{program.name}</ProgramsTab>
+                        <ProgramsTab key={i} className="tests-program-tab">
+                            {program.name}
+                        </ProgramsTab>
                     ))}
                 </ProgramsTabs>
                 {programs.map((program, i) => (
