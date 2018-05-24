@@ -90,7 +90,7 @@ const Programs: React.SFC = () => (
             >
                 <ProgramsTabs>
                     {programs.map((program, i) => (
-                        <ProgramsTab key={i} className="tests-program-tab">
+                        <ProgramsTab key={i} data-e2e="programs-tab">
                             {program.name}
                         </ProgramsTab>
                     ))}

@@ -32,7 +32,9 @@ describe('quick531', () => {
 
     programs.forEach((program, index) => {
         it(`should render weight for ${program.name} program`, async () => {
-            await page.click(`.tests-program-tab:nth-child(${index + 1})`)
+            await page.click(
+                `[data-e2e="programs-tab"]:nth-child(${index + 1})`
+            )
 
             programWeights[index].forEach(async (weight) => {
                 await expect(page).toMatch(weight)
